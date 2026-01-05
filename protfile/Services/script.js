@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const aboutBtn = document.querySelector('.about-btn');
     const socialIcons = document.querySelectorAll('.social-icon');
 
-    // Professions for typewriter effect
+    // Professions for typewriter effect (DevOps-focused)
     const professions = [
-        'Full-Stack Developer',
-        'Frontend Engineer', 
-        'Backend Developer',
-        'UI/UX Enthusiast',
-        'Problem Solver',
-        'Tech Innovator'
+        'DevOps Engineer',
+        'Cloud Engineer',
+        'Site Reliability Engineer',
+        'Infrastructure Engineer',
+        'CI/CD Specialist',
+        'Automation Engineer'
     ];
 
     // Typewriter Effect
@@ -182,6 +182,28 @@ document.addEventListener('DOMContentLoaded', function() {
             el.style.transitionDelay = `${index * 0.1}s`;
             
             animationObserver.observe(el);
+        });
+    }
+
+    // Animated name effect for hero title
+    function setupNameAnimation() {
+        const nameElement = document.querySelector('.hero-title .accent');
+        if (!nameElement) return;
+
+        const text = nameElement.textContent.trim();
+        if (!text) return;
+
+        // Avoid re-initializing if already split into spans
+        if (nameElement.querySelector('.name-char')) return;
+
+        nameElement.textContent = '';
+
+        [...text].forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.classList.add('name-char');
+            span.style.animationDelay = `${index * 0.06}s`;
+            nameElement.appendChild(span);
         });
     }
 
@@ -380,10 +402,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize everything
     function init() {
-        // Start typewriter effect
+        // Start typewriter effect (experience / role line)
         if (heroSubtitle) {
             typeWriter();
         }
+
+        // Setup animated name effect in hero section
+        setupNameAnimation();
         
         // Setup animations
         setupAnimations();
@@ -472,6 +497,54 @@ document.addEventListener('DOMContentLoaded', function() {
         .cta-btn:focus-visible {
             outline: 2px solid var(--accent-primary);
             outline-offset: 2px;
+        }
+        
+        /* Animated name effect */
+        .hero-title .accent {
+            display: inline-block;
+            position: relative;
+            background: linear-gradient(120deg, var(--accent-primary), #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-title .accent .name-char {
+            display: inline-block;
+            animation: nameWave 1.6s ease-in-out infinite;
+        }
+
+        .hero-title .accent .name-char:nth-child(odd) {
+            animation-duration: 1.8s;
+        }
+
+        @keyframes nameWave {
+            0%, 100% {
+                transform: translateY(0);
+                text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            }
+            50% {
+                transform: translateY(-3px);
+                text-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            }
+        }
+
+        /* Cursor style for typewriter line */
+        .cursor {
+            display: inline-block;
+            margin-left: 2px;
+            width: 1px;
+            background-color: currentColor;
+            animation: cursorBlink 0.8s steps(2, start) infinite;
+        }
+
+        @keyframes cursorBlink {
+            0%, 50% {
+                opacity: 1;
+            }
+            50.01%, 100% {
+                opacity: 0;
+            }
         }
     `;
     document.head.appendChild(style);

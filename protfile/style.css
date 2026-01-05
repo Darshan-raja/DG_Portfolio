@@ -306,11 +306,26 @@ header.scrolled {
 }
 
 .accent {
-    background: var(--accent-gradient);
+    background: linear-gradient(90deg, #00d4ff, #ff00ff, #00d4ff);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
+    display: inline-block;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% center;
+    }
+    50% {
+        background-position: 100% center;
+    }
+    100% {
+        background-position: 0% center;
+    }
 }
 
 .hero-subtitle {
