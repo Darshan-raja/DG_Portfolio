@@ -303,6 +303,18 @@ header.scrolled {
     margin-bottom: 1rem;
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards 0.4s;
+    position: relative;
+}
+
+/* Particle Container */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
 }
 
 .accent {
@@ -314,6 +326,27 @@ header.scrolled {
     position: relative;
     display: inline-block;
     animation: gradientShift 3s ease infinite;
+    min-height: 1em;
+}
+
+/* Typewriter Cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: linear-gradient(90deg, #00d4ff, #ff00ff);
+    margin-left: 4px;
+    animation: typewriterBlink 0.7s infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes typewriterBlink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
 }
 
 @keyframes gradientShift {

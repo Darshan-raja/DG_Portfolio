@@ -6,11 +6,84 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const typewriterName = document.getElementById('typewriter-name');
     const heroSubtitle = document.getElementById('rotating-profession');
     const ctaBtn = document.querySelector('.cta-btn');
     const hireBtns = document.querySelectorAll('.hire-btn');
     const aboutBtn = document.querySelector('.about-btn');
     const socialIcons = document.querySelectorAll('.social-icon');
+
+    // ========== NAME TYPEWRITER ANIMATION ==========
+    const fullName = 'Darshan D G';
+    let nameCharIndex = 0;
+    let isNameDeleting = false;
+    let nameTypingSpeed = 120;
+    let nameAnimationActive = false; // Wait for particles to complete
+    let typewriterStarted = false;
+
+    function typewriterName() {
+        if (!typewriterName || !nameAnimationActive) return;
+        
+        if (isNameDeleting) {
+            // Deleting characters
+            typewriterName.textContent = fullName.substring(0, nameCharIndex - 1);
+            nameCharIndex--;
+            nameTypingSpeed = 60;
+        } else {
+            // Typing characters
+            typewriterName.textContent = fullName.substring(0, nameCharIndex + 1);
+            nameCharIndex++;
+            nameTypingSpeed = 120;
+        }
+
+        // Add cursor effect
+        const cursor = document.createElement('span');
+        cursor.className = 'typewriter-cursor';
+        if (typewriterName.querySelector('.typewriter-cursor')) {
+            typewriterName.querySelector('.typewriter-cursor').remove();
+        }
+        typewriterName.appendChild(cursor);
+
+        if (!isNameDeleting && nameCharIndex === fullName.length) {
+            // Pause before deleting
+            nameTypingSpeed = 2500;
+            isNameDeleting = true;
+        } else if (isNameDeleting && nameCharIndex === 0) {
+            // Pause before typing again
+            isNameDeleting = false;
+            nameTypingSpeed = 500;
+        }
+
+        setTimeout(typewriterName, nameTypingSpeed);
+    }
+
+    // Listen for particle animation completion
+    document.addEventListener('particlesComplete', () => {
+        nameAnimationActive = true;
+        if (!typewriterStarted) {
+            typewriterStarted = true;
+            // Show the name element
+            if (typewriterName) {
+                typewriterName.style.opacity = '1';
+            }
+            // Clear and start typewriter
+            nameCharIndex = 0;
+            isNameDeleting = false;
+            typewriterName();
+        }
+    });
+
+    // Fallback: Start typewriter after 6 seconds if particles don't complete
+    setTimeout(() => {
+        if (!typewriterStarted && typewriterName) {
+            nameAnimationActive = true;
+            typewriterStarted = true;
+            nameCharIndex = 0;
+            isNameDeleting = false;
+            typewriterName();
+        }
+    }, 6000);
+    // ========== END NAME TYPEWRITER ANIMATION ==========
 
     // Professions for typewriter effect (DevOps-focused)
     const professions = [
