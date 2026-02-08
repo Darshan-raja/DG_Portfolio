@@ -95,8 +95,8 @@ function animate() {
 
     const opacity = p.life * 0.8;
     const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-    gradient.addColorStop(0, `hsla(186, 100%, 50%, ${opacity * 0.8})`);
-    gradient.addColorStop(1, `hsla(200, 60%, 45%, ${opacity * 0.1})`);
+    gradient.addColorStop(0, `hsla(266, 100%, 65%, ${opacity * 0.8})`);
+    gradient.addColorStop(1, `hsla(270, 90%, 55%, ${opacity * 0.1})`);
     ctx.fillStyle = gradient;
 
     ctx.beginPath();
@@ -115,7 +115,7 @@ function animate() {
   ctx.save();
   ctx.translate(cursor.x, cursor.y);
   ctx.rotate((time * 0.015) % (Math.PI * 2));
-  ctx.strokeStyle = `rgba(0, 212, 255, ${opacity * 0.4})`;
+  ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.4})`;
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.arc(0, 0, finalSize * 1.3, 0, Math.PI * 2);
@@ -123,7 +123,7 @@ function animate() {
   ctx.restore();
 
   // Main outer ring
-  ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+  ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   ctx.arc(cursor.x, cursor.y, finalSize, 0, Math.PI * 2);
@@ -138,21 +138,21 @@ function animate() {
     cursor.y,
     finalSize
   );
-  innerGradient.addColorStop(0, `rgba(0, 212, 255, ${opacity * 0.5})`);
-  innerGradient.addColorStop(1, `rgba(0, 153, 204, ${opacity * 0.1})`);
+  innerGradient.addColorStop(0, `rgba(99, 102, 241, ${opacity * 0.5})`);
+  innerGradient.addColorStop(1, `rgba(167, 139, 250, ${opacity * 0.1})`);
   ctx.fillStyle = innerGradient;
   ctx.beginPath();
   ctx.arc(cursor.x, cursor.y, finalSize * 0.35, 0, Math.PI * 2);
   ctx.fill();
 
   // Center dot
-  ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;
+  ctx.fillStyle = `rgba(99, 102, 241, ${opacity})`;
   ctx.beginPath();
   ctx.arc(cursor.x, cursor.y, finalSize * 0.12, 0, Math.PI * 2);
   ctx.fill();
 
   // Crosshair
-  ctx.strokeStyle = `rgba(0, 212, 255, ${
+  ctx.strokeStyle = `rgba(99, 102, 241, ${
     opacity * (0.5 + 0.3 * Math.sin(time * 0.05))
   })`;
   ctx.lineWidth = 1.8;
@@ -169,7 +169,7 @@ function animate() {
   ctx.stroke();
 
   if (isHovering) {
-    ctx.strokeStyle = `rgba(0, 153, 204, ${opacity * 0.6})`;
+    ctx.strokeStyle = `rgba(167, 139, 250, ${opacity * 0.6})`;
     ctx.lineWidth = 1.2;
     const diag = finalSize * 0.5;
 
