@@ -8,9 +8,9 @@ class CloudAnimation {
         this.nodes = [];
         this.animationFrameId = null;
         this.time = 0;
-        this.width = window.innerWidth;
+        this.width = document.documentElement.clientWidth;
         this.height = window.innerHeight;
-        
+
         this.init();
     }
 
@@ -41,7 +41,7 @@ class CloudAnimation {
     }
 
     resizeCanvas() {
-        this.width = window.innerWidth;
+        this.width = document.documentElement.clientWidth;
         this.height = window.innerHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;

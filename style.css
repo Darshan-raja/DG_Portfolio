@@ -636,6 +636,7 @@ header.scrolled {
 .about {
     background: var(--bg-secondary);
     position: relative;
+    overflow: hidden;
 }
 
 .about::before {
@@ -861,21 +862,16 @@ header.scrolled {
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 0 1rem;
-    }
-    
+/* Tablets between the desktop nav and the 768px phone breakpoint (e.g. iPad
+   Air/Pro portrait at 820/834px) don't have room for the full nav-menu +
+   nav-cta and were overflowing horizontally — switch them to the hamburger
+   nav too instead of only handling <=768px. */
+@media (max-width: 900px) {
     .navbar {
-        padding: 0 1rem;
         grid-template-columns: auto auto;
         gap: 1rem;
     }
-    
-    .nav-brand {
-        font-size: 1.5rem;
-    }
-    
+
     .nav-menu {
         position: fixed;
         top: 0;
@@ -895,27 +891,43 @@ header.scrolled {
         z-index: 999;
         margin-top: 70px;
     }
-    
+
     .nav-menu.active {
         transform: translateX(0);
     }
-    
+
     .nav-link {
         font-size: 1.3rem;
         padding: 0.8rem 1.5rem;
         text-align: center;
         width: 100%;
     }
-    
+
     .nav-cta {
         display: none !important;
     }
-    
+
     .hamburger {
         display: flex;
         z-index: 1000;
     }
-    
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .navbar {
+        padding: 0 1rem;
+        grid-template-columns: auto auto;
+        gap: 1rem;
+    }
+
+    .nav-brand {
+        font-size: 1.5rem;
+    }
+
     .section {
         padding: 5rem 0 3rem;
         min-height: auto;
@@ -1354,6 +1366,7 @@ header.scrolled {
 .skills {
     background: var(--bg-primary);
     position: relative;
+    overflow: hidden;
 }
 
 .skills::before {
@@ -1444,6 +1457,7 @@ header.scrolled {
 .services {
     background: var(--bg-secondary);
     position: relative;
+    overflow: hidden;
 }
 
 .services::before {
@@ -1550,6 +1564,7 @@ header.scrolled {
 .projects {
     background: var(--bg-primary);
     position: relative;
+    overflow: hidden;
 }
 
 .projects::before {
@@ -1684,6 +1699,7 @@ header.scrolled {
 .contact {
     background: var(--bg-secondary);
     position: relative;
+    overflow: hidden;
 }
 
 .contact::before {

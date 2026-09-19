@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let nameAnimationActive = false; // Wait for particles to complete
     let typewriterStarted = false;
 
-    function typewriterName() {
+    function runNameTypewriter() {
         if (!typewriterName || !nameAnimationActive) return;
-        
+
         if (isNameDeleting) {
             // Deleting characters
             typewriterName.textContent = fullName.substring(0, nameCharIndex - 1);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             nameTypingSpeed = 500;
         }
 
-        setTimeout(typewriterName, nameTypingSpeed);
+        setTimeout(runNameTypewriter, nameTypingSpeed);
     }
 
     // Listen for particle animation completion
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear and start typewriter
             nameCharIndex = 0;
             isNameDeleting = false;
-            typewriterName();
+            runNameTypewriter();
         }
     });
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             typewriterStarted = true;
             nameCharIndex = 0;
             isNameDeleting = false;
-            typewriterName();
+            runNameTypewriter();
         }
     }, 6000);
     // ========== END NAME TYPEWRITER ANIMATION ==========

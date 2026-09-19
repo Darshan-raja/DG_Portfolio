@@ -1,4 +1,10 @@
 // === Cursor Trail Effect ===
+// Skip entirely on touch/coarse-pointer devices (phones, tablets) — there is
+// no real mouse to drive it, so it would just leave a static reticle stuck
+// in the middle of the screen and burn battery on a pointless animation loop.
+if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    // no-op: leave the native touch behavior untouched
+} else {
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 const ctx = canvas.getContext("2d");
@@ -8,10 +14,10 @@ canvas.style.inset = "0";
 canvas.style.pointerEvents = "none";
 canvas.style.zIndex = "9999";
 
-canvas.width = window.innerWidth;
+canvas.width = document.documentElement.clientWidth;
 canvas.height = window.innerHeight;
 
-const cursor = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+const cursor = { x: document.documentElement.clientWidth / 2, y: window.innerHeight / 2 };
 const particles = [];
 let isClicking = false;
 let isHovering = false;
@@ -71,7 +77,7 @@ window.addEventListener("mouseup", () => {
 });
 
 window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
+  canvas.width = document.documentElement.clientWidth;
   canvas.height = window.innerHeight;
 });
 
@@ -191,3 +197,4 @@ animate();
 
 // Hide the normal cursor
 document.body.style.cursor = "none";
+}
