@@ -506,7 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Get form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
 
@@ -516,14 +515,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Simulate form submission (replace with actual API call)
-            console.log('Form submitted:', data);
+            // Honeypot: real visitors never fill this hidden field, bots do
+            if (data.botcheck) {
+                return;
+            }
 
-            // Show success message
-            showNotification('Thank you for your message! I will get back to you soon.', 'success');
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Sending...</span>';
+            }
 
-            // Reset form
-            this.reset();
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (result.success) {
+                        showNotification('Thank you for your message! I will get back to you soon.', 'success');
+                        contactForm.reset();
+                    } else {
+                        showNotification('Something went wrong. Please email me directly instead.', 'error');
+                    }
+                })
+                .catch(() => {
+                    showNotification('Something went wrong. Please email me directly instead.', 'error');
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnHTML;
+                    }
+                });
         });
     }
 
