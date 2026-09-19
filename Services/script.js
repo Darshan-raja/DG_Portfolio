@@ -202,9 +202,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = '#' + activeSection.getAttribute('id');
             updateActiveNavLink(id);
             
-            // Update URL hash
-            if (history.pushState) {
-                history.pushState(null, null, id);
+            // Update URL hash without polluting browser history — pushState
+            // here would add a new back-button stop for every section the
+            // user scrolls past.
+            if (history.replaceState) {
+                history.replaceState(null, null, id);
             }
         } else if (scrollPosition < 100) {
             updateActiveNavLink('#home');
@@ -282,6 +284,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Button Click Handlers
     function handleButtonClick(event) {
+        // The "Let's Talk" CTA is a real <a href="#contact">; without this the
+        // browser's native instant jump races the smooth scroll below.
+        event.preventDefault();
+
         const button = event.currentTarget;
         const ripple = document.createElement('span');
         const rect = button.getBoundingClientRect();
@@ -652,32 +658,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 });
 
-// Utility Functions
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
 // Performance monitoring
 if ('performance' in window) {
     window.addEventListener('load', () => {
@@ -697,16 +677,3 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
-
-// Service Worker Registration (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment if you have a service worker
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(registration => console.log('SW registered'))
-        //     .catch(error => console.log('SW registration failed'));
-    });
-
-
-
-}

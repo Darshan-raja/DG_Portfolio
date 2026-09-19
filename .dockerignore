@@ -1,0 +1,9 @@
+.git
+.github
+.claude
+.sixth
+docker
+scripts
+nginx
+node_modules
+*.md

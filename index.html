@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevOps Portfolio - Darshan D G</title>
+    <meta name="description" content="Darshan D G is a DevOps Engineer specializing in infrastructure automation, cloud deployment (AWS/Azure/GCP), CI/CD pipelines, Docker, Kubernetes, and Terraform.">
+    <link rel="icon" type="image/png" href="images/img.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -39,7 +41,9 @@
                 <div class="home-content">
                     <div class="home-text">
                         <div class="greeting">👋 Welcome!</div>
-                        <h1 class="hero-title">I'm <span class="accent" id="typewriter-name">DarshanDG</span></h1>                        <div id="particle-container" class="particle-container"></div>                        <h2 class="hero-subtitle" id="rotating-profession">DevOps Engineer</h2>
+                        <h1 class="hero-title">I'm <span class="accent" id="typewriter-name">DarshanDG</span></h1>
+                        <div id="particle-container" class="particle-container"></div>
+                        <h2 class="hero-subtitle" id="rotating-profession">DevOps Engineer</h2>
                         <p class="hero-desc">I'm Darshan D G, a passionate DevOps Engineer specializing in infrastructure automation, cloud deployment, and CI/CD pipeline design. I transform complex infrastructure challenges into scalable, reliable, and automated solutions.
 
 With expertise in containerization, orchestration, infrastructure as code, and cloud platforms, I build robust systems that empower teams to deploy faster, more securely, and with confidence.</p>
@@ -140,7 +144,7 @@ With expertise in containerization, orchestration, infrastructure as code, and c
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
                                     <h4>Location</h4>
-                                    <p>Benglauru Karnataka</p>
+                                    <p>Bengaluru, Karnataka</p>
                                 </div>
                             </div>
                             <div class="highlight">
@@ -638,7 +642,7 @@ With expertise in containerization, orchestration, infrastructure as code, and c
                             </div>
                             <div class="contact-details">
                                 <h3>Location</h3>
-                                <p>Benglauru</p>
+                                <p>Bengaluru, Karnataka</p>
                                 <a href="#" target="_blank">View on Map</a>
                             </div>
                         </div>
@@ -685,9 +689,42 @@ With expertise in containerization, orchestration, infrastructure as code, and c
         </section>
     </main>
 
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatbotToggle" aria-label="Chat with Sara">
+            <span class="chatbot-icon-open" role="img" aria-label="Sara chatbot">🤖</span>
+            <i class="fas fa-times chatbot-icon-close"></i>
+        </button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar" role="img" aria-label="Sara chatbot avatar">🤖</div>
+                <div class="chatbot-header-text">
+                    <h4>Sara</h4>
+                    <span><i class="fas fa-circle"></i> Darshan's Portfolio Assistant</span>
+                </div>
+                <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages"></div>
+            <div class="chatbot-quick-replies" id="chatbotQuickReplies">
+                <button type="button" data-question="What are your skills?">Skills</button>
+                <button type="button" data-question="Tell me about your experience">Experience</button>
+                <button type="button" data-question="Show me your projects">Projects</button>
+                <button type="button" data-question="How can I contact you?">Contact</button>
+            </div>
+            <form class="chatbot-input-area" id="chatbotForm">
+                <input type="text" id="chatbotInput" placeholder="Ask something about Darshan..." autocomplete="off">
+                <button type="submit" aria-label="Send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script src="./Services/cloud-animation.js"></script>
     <script src="./Services/particle-animation.js"></script>
     <script src="./Services/script.js"></script>
+    <script src="./Services/chatbot.js"></script>
     <script src="./Services/cursoreffect.js"></script>
 </body>
 </html>
