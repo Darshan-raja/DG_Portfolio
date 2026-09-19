@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let nameAnimationActive = false; // Wait for particles to complete
     let typewriterStarted = false;
 
-    function typewriterName() {
+    function runNameTypewriter() {
         if (!typewriterName || !nameAnimationActive) return;
-        
+
         if (isNameDeleting) {
             // Deleting characters
             typewriterName.textContent = fullName.substring(0, nameCharIndex - 1);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             nameTypingSpeed = 500;
         }
 
-        setTimeout(typewriterName, nameTypingSpeed);
+        setTimeout(runNameTypewriter, nameTypingSpeed);
     }
 
     // Listen for particle animation completion
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear and start typewriter
             nameCharIndex = 0;
             isNameDeleting = false;
-            typewriterName();
+            runNameTypewriter();
         }
     });
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             typewriterStarted = true;
             nameCharIndex = 0;
             isNameDeleting = false;
-            typewriterName();
+            runNameTypewriter();
         }
     }, 6000);
     // ========== END NAME TYPEWRITER ANIMATION ==========
@@ -202,9 +202,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = '#' + activeSection.getAttribute('id');
             updateActiveNavLink(id);
             
-            // Update URL hash
-            if (history.pushState) {
-                history.pushState(null, null, id);
+            // Update URL hash without polluting browser history — pushState
+            // here would add a new back-button stop for every section the
+            // user scrolls past.
+            if (history.replaceState) {
+                history.replaceState(null, null, id);
             }
         } else if (scrollPosition < 100) {
             updateActiveNavLink('#home');
@@ -282,6 +284,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Button Click Handlers
     function handleButtonClick(event) {
+        // The "Let's Talk" CTA is a real <a href="#contact">; without this the
+        // browser's native instant jump races the smooth scroll below.
+        event.preventDefault();
+
         const button = event.currentTarget;
         const ripple = document.createElement('span');
         const rect = button.getBoundingClientRect();
@@ -506,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Get form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
 
@@ -516,14 +521,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Simulate form submission (replace with actual API call)
-            console.log('Form submitted:', data);
+            // Honeypot: real visitors never fill this hidden field, bots do
+            if (data.botcheck) {
+                return;
+            }
 
-            // Show success message
-            showNotification('Thank you for your message! I will get back to you soon.', 'success');
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnHTML = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Sending...</span>';
+            }
 
-            // Reset form
-            this.reset();
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (result.success) {
+                        showNotification('Thank you for your message! I will get back to you soon.', 'success');
+                        contactForm.reset();
+                    } else {
+                        showNotification('Something went wrong. Please email me directly instead.', 'error');
+                    }
+                })
+                .catch(() => {
+                    showNotification('Something went wrong. Please email me directly instead.', 'error');
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnHTML;
+                    }
+                });
         });
     }
 
@@ -623,32 +658,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 });
 
-// Utility Functions
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
 // Performance monitoring
 if ('performance' in window) {
     window.addEventListener('load', () => {
@@ -668,16 +677,3 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
-
-// Service Worker Registration (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment if you have a service worker
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(registration => console.log('SW registered'))
-        //     .catch(error => console.log('SW registration failed'));
-    });
-
-
-
-}
