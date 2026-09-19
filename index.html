@@ -481,7 +481,7 @@ With expertise in containerization, orchestration, infrastructure as code, and c
                         </div>
                         <div class="project-card">
                             <div class="project-image">
-                                <img src="images/Weather Forecast Dashboard.jpg" alt="Monitoring Dashboard">
+                                <img src="images/fathom-v2-staging-architecture.png" alt="Fathom V2 staging architecture diagram showing ALB, ECS Fargate, and RDS PostgreSQL on AWS">
                                 <div class="project-overlay">
                                     <div class="project-links">
                                         <a href="#" class="project-link">
@@ -494,13 +494,15 @@ With expertise in containerization, orchestration, infrastructure as code, and c
                                 </div>
                             </div>
                             <div class="project-info">
-                                <h3>Enterprise Monitoring Stack</h3>
-                                <p>Implemented Prometheus and Grafana for infrastructure monitoring, log aggregation with ELK Stack, and alerting system for proactive incident response.</p>
+                                <h3>Fathom V2 – AWS Staging Architecture</h3>
+                                <p>Designed and deployed the staging environment for Fathom V2 on AWS: an Application Load Balancer routes HTTPS traffic into an ECS Fargate service, which connects to an Amazon RDS PostgreSQL instance over a private subnet. Security groups scope access between tiers, while the ECS task pulls its image from ECR, reads secrets and config from SSM Parameter Store at startup, and ships application logs to CloudWatch for centralized observability.</p>
                                 <div class="project-tech">
-                                    <span>Prometheus</span>
-                                    <span>Grafana</span>
-                                    <span>ELK Stack</span>
-                                    <span>Alertmanager</span>
+                                    <span>AWS ECS Fargate</span>
+                                    <span>Application Load Balancer</span>
+                                    <span>Amazon RDS (PostgreSQL)</span>
+                                    <span>ECR</span>
+                                    <span>SSM Parameter Store</span>
+                                    <span>CloudWatch Logs</span>
                                 </div>
                                 <div style="margin-top: 1.2rem;">
                                     <a href="#" target="_blank" style="color: var(--accent-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
